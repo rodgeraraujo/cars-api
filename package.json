@@ -1,0 +1,30 @@
+{
+  "name": "cars-nodejs",
+  "version": "1.0.0",
+  "author": "Rogério Araújo <rodgeraraujo>",
+  "scripts": {
+    "test": "",
+    "test:watch": "",
+    "lint": "eslint --ext .js .",
+    "lint:fix": "eslint --ext .js --fix .",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "npm run lint:fix"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.1",
+    "prettier": "^2.3.2"
+  }
+}
