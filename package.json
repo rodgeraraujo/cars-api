@@ -3,18 +3,17 @@
   "version": "1.0.0",
   "author": "Rogério Araújo <rodgeraraujo>",
   "scripts": {
-    "test": "",
+    "test": "ocho \"no test\"",
     "test:watch": "",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js --fix .",
+    "prettier": "prettier --write .",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js}": [
-      "npm run lint:fix"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
+    "**/*.+(js|json|md)": [
+      "prettier --write",
+      "eslint . --fix"
     ]
   },
   "devDependencies": {
