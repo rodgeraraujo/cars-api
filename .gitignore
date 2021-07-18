@@ -4,3 +4,5 @@ node_modules
 .vsocde/
 .env
 dist
+*.sqlite3
+*.sqlite

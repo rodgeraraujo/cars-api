@@ -9,7 +9,13 @@
  */
 import { Router } from 'express';
 import { response } from './utils';
-import { createCar, deleteCar, getCar, updateCar } from '../controllers/car';
+import {
+  createCar,
+  deleteCar,
+  getCar,
+  getCars,
+  updateCar,
+} from '../controllers/car';
 
 const router = Router();
 
@@ -25,28 +31,35 @@ const router = Router();
 
 export const carRouter = (logger, adapter) => {
   /**
-   * get task with existing id
+   * get cars
+   */
+  router.get('/', (req, res, next) =>
+    response(getCars(logger, adapter)(req, res, next), res, next),
+  );
+
+  /**
+   * get car with existing id
    */
   router.get('/:id', (req, res, next) =>
     response(getCar(logger, adapter)(req, res, next), res, next),
   );
 
   /**
-   * create task with existing id
+   * create car with existing id
    */
   router.post('/', (req, res, next) =>
     response(createCar(logger, adapter)(req, res, next), res, next),
   );
 
   /**
-   * update task with existing id
+   * update car with existing id
    */
   router.put('/:id', (req, res, next) =>
     response(updateCar(logger, adapter)(req, res, next), res, next),
   );
 
   /**
-   * delete task with existing id
+   * delete car with existing id
    */
   router.delete('/:id', (req, res, next) =>
     response(deleteCar(logger, adapter)(req, res, next), res, next),

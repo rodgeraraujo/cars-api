@@ -8,24 +8,32 @@
 
 /***
  * repositories
- * dynamo and sqs are used in repositories
+ * sqlite3 are used in repositories
  */
 
+import {
+  saveItem,
+  getItem,
+  listItems,
+  putItem,
+  deleteItem,
+} from './database/sqlite';
+
 /**
- * @description dynamo repository for state machine
+ * @description sqlite3 repository for state machine
  *
  * @memberof ports/state-machines
  * @function
- * @param {DynamoDB.DocumentClient} dynamo instance of dynamo api
+ * @param {sqlite3} sqlite instance of dynamo api
  * @returns {DynamoRepositoryInstance} instance of repository for database
  */
-export const databaseRepository = (_dynamo, tableName) => {
-  console.log(`update ${tableName}`);
+export const databaseRepository = (sqlite, tableName) => {
   return {
-    update: (dynamo, tableName) => console.log(`update ${tableName}`),
-    get: (dynamo, tableName) => console.log(`get ${tableName}`),
-    put: (dynamo, tableName) => console.log(`put ${tableName}`),
-    delete: (dynamo, tableName) => console.log(`delete ${tableName}`),
+    post: saveItem(sqlite, tableName),
+    get: getItem(sqlite, tableName),
+    list: listItems(sqlite, tableName),
+    put: putItem(sqlite, tableName),
+    delete: deleteItem(sqlite, tableName),
   };
 };
 

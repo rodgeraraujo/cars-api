@@ -4,9 +4,9 @@
   "author": "Rogério Araújo <rodgeraraujo>",
   "type": "module",
   "scripts": {
-    "dev": "node --experimental-specifier-resolution=node src/ports/http/bin/www",
-    "start": "node dist/ports/http/bin/www",
-    "test": "ocho \"no test\"",
+    "dev": "nodemon --experimental-specifier-resolution=node src/ports/http/bin/www",
+    "start": "node --experimental-specifier-resolution=node src/ports/http/bin/www",
+    "test": "echo \"no test\"",
     "test:watch": "",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js --fix .",
@@ -14,9 +14,11 @@
     "prepare": "husky install"
   },
   "lint-staged": {
+    "**/*.+(js)": [
+      "eslint .  --fix"
+    ],
     "**/*.+(js|json|md)": [
-      "prettier --write",
-      "eslint . --fix"
+      "prettier --write"
     ]
   },
   "dependencies": {
@@ -24,7 +26,8 @@
     "debug": "^2.6.9",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "pino": "^6.12.0"
+    "pino": "^6.12.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
@@ -34,6 +37,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.1",
     "lint-staged": "^11.0.1",
+    "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   }
 }

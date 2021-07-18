@@ -8,6 +8,7 @@
 
 import express from 'express';
 import { databaseRepository } from '../state-machines';
+import { sqliteInstance } from '../state-machines/database';
 import { adapter } from '../../adapters';
 import { appConfig } from '../../config';
 import { getRoutes } from './routes';
@@ -17,11 +18,9 @@ const _app = express();
 
 const logger = handleLogger(appConfig.appName, appConfig.envName);
 
-const dbClient = {};
-
 // inject repositories
 const databaseRepoInstance = databaseRepository(
-  dbClient,
+  sqliteInstance,
   appConfig.car.tableName,
 );
 

@@ -11,7 +11,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 
-export { createCar, deleteCar, getCar, updateCar } from './car';
+export { createCar, deleteCar, getCar, getCars, updateCar } from './car';
 
 /**
  * Complex callbacks documentation.

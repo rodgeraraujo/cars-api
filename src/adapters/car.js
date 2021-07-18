@@ -26,6 +26,7 @@ import {
  */
 const carAdapterFactory = (logger, repository) => ({
   getCar: getCar(repository),
+  getCars: getCars(repository),
   createCar: createCar(logger, repository),
   updateCar: updateCar(logger, repository),
   deleteCar: deleteCar(logger, repository),
@@ -34,7 +35,7 @@ const carAdapterFactory = (logger, repository) => ({
 export default carAdapterFactory;
 
 /**
- * @description Handler function to get car data by id .
+ * @description Handler function to get car data by id.
  * @memberof adapters
  * @async
  * @function
@@ -46,6 +47,24 @@ const getCar = repository => async id => {
   const methodPath = 'adapters.car.getCar';
   try {
     return await repository.get({ id });
+  } catch (error) {
+    throwCustomError(error, methodPath, EClassError.INTERNAL);
+  }
+};
+
+/**
+ * @description Handler function to get cars data.
+ * @memberof adapters
+ * @async
+ * @function
+ * @throws {CustomError}
+ * @param {databaseRepository} repository - State-machine database methods.
+ * @returns {getCarReturn} GetDocument method ready to execute.
+ */
+const getCars = repository => async () => {
+  const methodPath = 'adapters.car.getCars';
+  try {
+    return await repository.list();
   } catch (error) {
     throwCustomError(error, methodPath, EClassError.INTERNAL);
   }
@@ -169,10 +188,11 @@ const deleteCar = (_logger, _repository) => async (_id, _user) => {
 
 /**
  * @typedef {Object} CarAdapter
- * @property {getCarReturn} getCar function to get task by id (instantied)
- * @property {createCarReturn} createCar function to generate task (instantiated).
- * @property {updateCarReturn} updateCar function to update task  (instantiated).
- * @property {deleteCarReturn} deleteCar function to delete task (instantiated).
+ * @property {getCarsReturn} getCars function to get list of cars by id (instantied)
+ * @property {getCarReturn} getCar function to get car by id (instantied)
+ * @property {createCarReturn} createCar function to create car (instantiated).
+ * @property {updateCarReturn} updateCar function to update car  (instantiated).
+ * @property {deleteCarReturn} deleteCar function to delete car (instantiated).
  */
 
 /**
