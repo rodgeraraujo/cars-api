@@ -1,12 +1,3 @@
-/**
- * Reference only imports (for documentation).
- */
-// eslint-disable-next-line no-unused-vars
-// import { Adapter } from '../../../adapters/index';
-
-/**
- * Code imports.
- */
 import { Router } from 'express';
 import { response } from './utils';
 import {

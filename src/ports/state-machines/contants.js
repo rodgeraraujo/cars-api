@@ -6,6 +6,7 @@
  */
 const classError = {
   INTERNAL: 'INTERNAL',
+  NOT_FOUND: 'NOT_FOUND',
 };
 
 export { classError };

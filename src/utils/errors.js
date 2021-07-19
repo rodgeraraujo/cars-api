@@ -4,6 +4,13 @@
  * this only one mutable object in all code
  */
 
+export class NotFoundError extends Error {
+  constructor(message, stack = null) {
+    super(message, stack);
+    this.code = 404;
+  }
+}
+
 /**
  * Object type for Custom errors
  * @typedef {Object} CustomError Object
@@ -24,15 +31,10 @@ export class CustomError extends Error {
     super();
     const { name, message, stack } = err;
 
-    // eslint-disable-next-line
     this.name = name;
-    // eslint-disable-next-line
     this.message = message;
-    // eslint-disable-next-line
     this.stack = stack;
-    // eslint-disable-next-line
     this.internalName = classError;
-    // eslint-disable-next-line
     this.method = methodPath;
   }
 }
@@ -45,7 +47,8 @@ export class CustomError extends Error {
  */
 export const EClassError = {
   INTERNAL: 'INTERNAL',
-  CAR_ERROR: 'USER_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
+  DATA_ERROR: 'DATA_ERROR',
 };
 
 /**

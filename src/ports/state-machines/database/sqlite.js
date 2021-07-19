@@ -21,18 +21,23 @@ import { throwCustomError } from '../../../utils';
 export const saveItem = (db, tableName) => async item => {
   try {
     const params = Object.keys(item).join(',');
+    const values = Object.values(item);
 
     let sql = `INSERT INTO ${tableName} (${params}) VALUES (?,?,?,?,?,?)`;
-
-    db.serialize(function () {
-      db.run(sql, item, function (error) {
-        if (error) {
-          throwCustomError(
-            error,
-            'state-machines.database.sqlite.saveItem',
-            classError.INTERNAL,
-          );
-        } else return;
+    return new Promise(function (resolve) {
+      db.serialize(function () {
+        db.run(sql, values, function (error, row) {
+          if (error) {
+            throwCustomError(
+              error,
+              'state-machines.database.sqlite.saveItem',
+              classError.INTERNAL,
+            );
+          } else {
+            console.log('inserted', row);
+            resolve(item);
+          }
+        });
       });
     });
   } catch (error) {
@@ -55,12 +60,32 @@ export const saveItem = (db, tableName) => async item => {
  * @param {string} tableName name of table in database
  * @returns {getItemReturn} Object saved in table
  */
-export const getItem = (_db, _tableName) => async _id => {
-  throwCustomError(
-    new Error('Not implemented'),
-    'state-machines.database.sqlite.getItem',
-    classError.INTERNAL,
-  );
+export const getItem = (db, tableName) => async params => {
+  try {
+    const { id } = params;
+    let sql = `SELECT * FROM ${tableName} WHERE id == ${id} LIMIT 1`;
+    return new Promise(function (resolve) {
+      db.serialize(async () => {
+        db.get(sql, (error, row) => {
+          if (error) {
+            throwCustomError(
+              error,
+              'state-machines.database.sqlite.getItem',
+              classError.INTERNAL,
+            );
+            return;
+          }
+          resolve(row);
+        });
+      });
+    });
+  } catch (error) {
+    throwCustomError(
+      error,
+      'state-machines.database.sqlite.getItem',
+      classError.INTERNAL,
+    );
+  }
 };
 
 /**
@@ -74,7 +99,32 @@ export const getItem = (_db, _tableName) => async _id => {
  * @param {string} tableName name of table in database
  * @returns {listItemReturn} Object saved in table
  */
-export const listItems = (_db, _tableName) => async () => {};
+export const listItems = (db, tableName) => async () => {
+  try {
+    let sql = `SELECT * FROM ${tableName} LIMIT 100`;
+    return new Promise(function (resolve) {
+      db.serialize(async () => {
+        db.all(sql, (error, rows) => {
+          if (error) {
+            throwCustomError(
+              error,
+              'state-machines.database.sqlite.listItems',
+              classError.INTERNAL,
+            );
+            return;
+          }
+          resolve(rows);
+        });
+      });
+    });
+  } catch (error) {
+    throwCustomError(
+      error,
+      'state-machines.database.sqlite.listItems',
+      classError.INTERNAL,
+    );
+  }
+};
 
 /**
  * Update data of item on table TableName in the SQLite3.
@@ -87,12 +137,35 @@ export const listItems = (_db, _tableName) => async () => {};
  * @param {string} tableName name of table in DynamoDB
  * @returns {putItemReturn} Object updated in table
  */
-export const putItem = (_db, _tableName) => async (_id, _item) => {
-  throwCustomError(
-    new Error('Not implemented'),
-    'state-machines.database.sqlite.putItem',
-    classError.INTERNAL,
-  );
+export const putItem = (db, tableName) => async (params, item) => {
+  try {
+    const { id } = params;
+    const sqlParams = `${Object.keys(item).join('=?, ')}=?`;
+    const sql = `UPDATE ${tableName} SET ${sqlParams} WHERE id == ${id}`;
+    const values = Object.values(item);
+
+    return new Promise(function (resolve) {
+      db.serialize(async () => {
+        db.all(sql, values, error => {
+          if (error) {
+            throwCustomError(
+              error,
+              'state-machines.database.sqlite.putItem',
+              classError.INTERNAL,
+            );
+            return;
+          }
+          resolve(true);
+        });
+      });
+    });
+  } catch (error) {
+    throwCustomError(
+      error,
+      'state-machines.database.sqlite.listItems',
+      classError.INTERNAL,
+    );
+  }
 };
 
 /**
@@ -106,10 +179,27 @@ export const putItem = (_db, _tableName) => async (_id, _item) => {
  * @param {string} tableName name of table in SQLite3
  * @returns {deleteItemReturn} Object if deleted from table
  */
-export const deleteItem = (_db, _tableName) => async _id => {
-  throwCustomError(
-    new Error('Not implemented'),
-    'state-machines.database.sqlite.deleteItem',
-    classError.INTERNAL,
-  );
+export const deleteItem = (db, tableName) => async params => {
+  try {
+    const { id } = params;
+    let sql = `DELETE FROM ${tableName} WHERE id == ${id}`;
+    return new Promise(function (resolve) {
+      db.run(sql, error => {
+        if (error) {
+          throwCustomError(
+            error,
+            'state-machines.database.sqlite.listItems',
+            classError.INTERNAL,
+          );
+        }
+        resolve(true);
+      });
+    });
+  } catch (error) {
+    throwCustomError(
+      error,
+      'state-machines.database.sqlite.listItems',
+      classError.INTERNAL,
+    );
+  }
 };

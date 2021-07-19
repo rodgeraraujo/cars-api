@@ -1,11 +1,4 @@
 /**
- * Reference only imports (for documentation).
- */
-
-// eslint-disable-next-line no-unused-vars
-// import { Adapter } from '../../../adapters';
-
-/**
  * @description Get Cars
  *
  * @memberof ports/http/controllers
@@ -52,7 +45,7 @@ export const createCar = (logger, adapter) => async (req, _res, _next) => {
     /**
      * TODO validate body
      */
-    return await adapter.car.createCar(req.body.data);
+    return await adapter.car.createCar(req.body);
   } catch (error) {
     logger.error('api.controller.car.createCar', error);
     throw error;
@@ -72,7 +65,10 @@ export const updateCar = (logger, adapter) => async (req, _res, _next) => {
     /**
      * TODO validate body
      */
-    return await adapter.car.updateCar(req.params.id, req.body.data);
+    const updated = await adapter.car.updateCar(req.params.id, req.body);
+    if (updated) {
+      return await adapter.car.getCar(req.params.id);
+    }
   } catch (error) {
     logger.error('api.controller.car.updateCar', error);
     throw error;
@@ -87,9 +83,10 @@ export const updateCar = (logger, adapter) => async (req, _res, _next) => {
  * @param {Adapter} adapter adapter instantiated
  * @returns {controllerCarReturn}
  */
-export const deleteCar = (logger, adapter) => async (req, _res, _next) => {
+export const deleteCar = (logger, adapter) => async (req, res, _next) => {
   try {
-    return await adapter.car.deleteCar(req.params.id);
+    await adapter.car.deleteCar(req.params.id);
+    res.status(201);
   } catch (error) {
     logger.error('api.controller.car.deleteCar', error);
     throw error;

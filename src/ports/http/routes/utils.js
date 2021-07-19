@@ -23,9 +23,11 @@ export const response = async (prom, res, _next) => {
     switch (error.constructor) {
       case CustomError:
         switch (error.internalName) {
+          case EClassError.NOT_FOUND:
+            return res.status(404).json({ ...error });
           case EClassError.INTERNAL:
             return res.status(500).json({ ...error });
-          case EClassError.USER_ERROR:
+          case EClassError.DATA_ERROR:
             return res.status(400).json({ ...error });
           default:
             return res.status(500).json({ ...error });

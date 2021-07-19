@@ -6,6 +6,11 @@
  * @description this namespace have common methods to use in all scope from repo
  */
 
-import { CustomError, EClassError, throwCustomError } from './errors';
+import {
+  NotFoundError,
+  CustomError,
+  EClassError,
+  throwCustomError,
+} from './errors';
 
-export { CustomError, EClassError, throwCustomError };
+export { NotFoundError, CustomError, EClassError, throwCustomError };

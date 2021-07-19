@@ -4,7 +4,7 @@
   "author": "Rogério Araújo <rodgeraraujo>",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --experimental-specifier-resolution=node src/ports/http/bin/www",
+    "dev": "nodemon --experimental-specifier-resolution=node src/ports/http/bin/www | pino-pretty",
     "start": "node --experimental-specifier-resolution=node src/ports/http/bin/www",
     "test": "echo \"no test\"",
     "test:watch": "",
