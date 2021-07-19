@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --experimental-specifier-resolution=node src/ports/http/bin/www | pino-pretty",
     "start": "node --experimental-specifier-resolution=node src/ports/http/bin/www",
-    "test": "echo \"no test\"",
+    "test": "mocha",
     "test:watch": "",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js --fix .",
@@ -30,6 +30,7 @@
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "eslint": "^7.30.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.23.4",
@@ -37,7 +38,9 @@
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.1",
     "lint-staged": "^11.0.1",
+    "mocha": "^9.0.2",
     "nodemon": "^2.0.12",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "supertest": "^6.1.3"
   }
 }

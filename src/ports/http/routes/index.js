@@ -32,7 +32,33 @@ import { hearthRouter } from './hearth';
 export const getRoutes = (logger, adapter, app) => {
   // Route cars
   app.use('/api/v1/cars', carRouter(logger, adapter));
+
   app.use('/hearth', hearthRouter(logger, adapter));
+
+  // app.get('/', (req, res) => {
+  //   // create response object with all routes path and method
+  //   const response = {
+  //     path: '',
+  //     method: 'GET',
+  //     description: '',
+  //     parameters: [],
+  //     responses: [],
+  //     examples: [],
+  //   };
+  //   // get all routes from router
+  //   const routes = carRouter(logger, adapter);
+  //   // iterate over all routes and add them to response object
+  //   routes.forEach(route => {
+  //     response.path += `${route.path}`;
+  //     response.method += `${route.method}`;
+  //     response.description += `${route.description}`;
+  //     response.parameters = response.parameters.concat(route.parameters);
+  //     response.responses = response.responses.concat(route.responses);
+  //     response.examples = response.examples.concat(route.examples);
+  //   });
+  //   // send response object to client
+  //   res.json(response);
+  // });
 
   return app;
 };
